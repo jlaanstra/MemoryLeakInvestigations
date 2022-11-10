@@ -1,0 +1,51 @@
+﻿<UserControl
+    x:Class="MemoryLeakInvestigations.RepeaterNested"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:MemoryLeakInvestigations"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewmodels="using:RuntimeComponent1"
+    mc:Ignorable="d">
+
+
+    <Grid>
+        <ScrollViewer>
+            <StackPanel>
+                <ItemsRepeater ElementPrepared="ItemsRepeater_ElementPrepared" ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}">
+                    <ItemsRepeater.Layout>
+                        <UniformGridLayout
+                            ItemsStretch="Fill"
+                            MinColumnSpacing="12"
+                            MinItemHeight="216"
+                            MinItemWidth="221"
+                            MinRowSpacing="12" />
+                    </ItemsRepeater.Layout>
+                    <ItemsRepeater.ItemTemplate>
+                        <DataTemplate x:DataType="viewmodels:ViewModel">
+                            <StackPanel>
+                                <TextBlock
+                                    Padding="0,12"
+                                    Style="{StaticResource SubtitleTextBlockStyle}"
+                                    Text="Test" />
+                                <ItemsRepeater ElementPrepared="NestedItemsRepeater_ElementPrepared" ItemsSource="{x:Bind Items, Mode=OneWay}">
+                                    <ItemsRepeater.ItemTemplate>
+                                        <DataTemplate x:DataType="x:String">
+                                            <local:RepeaterItem AutomationProperties.Name="{x:Bind}" ViewModelChanged="UserControl2_ViewModelChanged" />
+                                        </DataTemplate>
+                                    </ItemsRepeater.ItemTemplate>
+                                </ItemsRepeater>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsRepeater.ItemTemplate>
+                </ItemsRepeater>
+                <TextBlock
+                    Margin="0,24"
+                    FontSize="13"
+                    OpticalMarginAlignment="TrimSideBearings"
+                    Text="Bottom"
+                    TextWrapping="WrapWholeWords" />
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</UserControl>
