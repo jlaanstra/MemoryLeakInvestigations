@@ -1,0 +1,12 @@
+namespace RuntimeComponent1
+{
+    [bindable]
+    [default_interface]
+    runtimeclass ViewModel : Microsoft.UI.Xaml.Data.INotifyPropertyChanged 
+    {
+        ViewModel();
+        String Value;
+
+        IInspectable Items;
+    }
+}
